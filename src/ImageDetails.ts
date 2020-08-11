@@ -202,14 +202,27 @@ export class ImageDetails {
 
 		let styleString: string = this.getThumbnailStyle(point);
 
-
-
-		d3.selectAll(".selectedImageContainer")
+		d3.selectAll('.selectedImageContainer')
 			.attr('style', styleString)
 			.on('click', () => this.onClick(point))
 			.on("mouseenter", () => this.onMouseEnter(this.selectedPointContainer, point))
 			.on("mouseleave", () => this.onMouseLeave());
 
+
+		const baseURL: string = 'http://shapeoptimize.sci.utah.edu:8501/';
+
+		const shapeParamKeyList: string[] = ['m', 'n1', 'n2', 'n3', 'a', 'b'];
+		const shapeParamKeyValueList: [string, string][] = [];
+		for (let shapeKey of shapeParamKeyList)
+		{
+			let val = point.attributes[shapeKey].value;
+			shapeParamKeyValueList.push([shapeKey, val.toString()]);
+		}
+
+		const params = new URLSearchParams(shapeParamKeyValueList);
+		const urlWithArgs = baseURL + '?' + params.toString();
+		d3.selectAll('.launchOptimizeShapeLink')
+			.attr('href', urlWithArgs);
 	}
 
 	private updateSortOptions(): void
