@@ -109,7 +109,7 @@ export class ColorScaleLegend {
 				.attr("opacity", 1)
 		}
 
-		this._valueScale = d3.scaleLinear()
+		this._valueScale = d3.scaleLog()
 			.domain([minV, maxV])
 			.range([this.height, 0])
 
